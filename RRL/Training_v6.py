@@ -1,32 +1,24 @@
-import numpy as np
+# Import plot libraries.
 import matplotlib.pyplot as plt
-from scipy import signal
-import math
-#from pyalgotrade import strategy
-#from pyalgotrade import plotter
-#from pyalgotrade.tools import yahoofinance
-#from pyalgotrade.technical import vwap
-#from pyalgotrade.stratanalyzer import sharpe
 
-#from sklearn.preprocessing import normalize
-
+# Import Scipy functions
 from scipy.optimize import fmin_bfgs
 from scipy.optimize import fmin_slsqp
 from scipy.optimize import  fmin_ncg
 import scipy.optimize as op
 
-from numpy import asarray
-from numpy import diag
-from numpy import zeros_like
+# Import Numpy functions
+import numpy as np
 from numpy import genfromtxt
 
+# Import local functions.
 from RRL.UtilityFunctions import  GetReturns
-from RRL.CoreFunctions_v5 import ObjectiveFunction
-from RRL.CoreFunctions_v5 import GradientFunctionM
-from RRL.CoreFunctions_v5 import  train
-from RRL.CoreFunctions_v5 import ComputeF
-from RRL.CoreFunctions_v5 import RewardFunction
-from RRL.CoreFunctions_v5 import SharpeRatio
+from RRL.CoreFunctions_v6 import ObjectiveFunction
+from RRL.CoreFunctions_v6 import GradientFunctionM
+from RRL.CoreFunctions_v6 import  train
+from RRL.CoreFunctions_v6 import ComputeF
+from RRL.CoreFunctions_v6 import RewardFunction
+from RRL.CoreFunctions_v6 import SharpeRatio
 from RRL.UtilityFunctions import FeatureNormalize
 
 #### MAIN ####
