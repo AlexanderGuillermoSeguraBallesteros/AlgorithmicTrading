@@ -1,3 +1,4 @@
+'''
 from scipy.optimize import fmin_ncg
 from scipy.optimize import fmin_bfgs
 from pyalgotrade.tools import yahoofinance
@@ -102,3 +103,10 @@ Ofv1 = OFv1(theta, X[0:windowSize], mu, transactionCosts, M, T)
 Ofv2 = OFv2(theta, X, T, M, mu, transactionCosts, startPos)
 print (Ofv1,Ofv2)
 #print xopt
+'''
+
+import quandl
+data = quandl.get("WIKI/AAPL", start_date = "2001-12-31", end_date="2005-12-31", returns="numpy")
+dataframe = quandl.get("WIKI/AAPL", start_date = "2001-12-31", end_date="2005-12-31")
+print (dataframe["Adj. Close"])
+print (data["Adj. Close"])

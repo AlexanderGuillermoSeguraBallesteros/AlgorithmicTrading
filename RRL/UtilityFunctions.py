@@ -1,10 +1,5 @@
 import numpy as np
 import math
-from pyalgotrade import strategy
-from pyalgotrade import plotter
-from pyalgotrade.tools import yahoofinance
-from pyalgotrade.technical import vwap
-from pyalgotrade.stratanalyzer import sharpe
 from scipy.optimize import fmin_bfgs
 from numpy import asarray
 from numpy import diag
@@ -20,6 +15,7 @@ def GetReturns(X):
 
     # Parameters
     arrayLength = X.size - 1 # Set the length of the array
+    print(arrayLength)
     returns = np.zeros(arrayLength - 1) # Initialize the array to zeros.
 
     # Compute returns for each time step.
