@@ -22,6 +22,7 @@ from RRL.CoreFunctions_v6 import ComputeF
 from RRL.CoreFunctions_v6 import RewardFunction
 from RRL.CoreFunctions_v6 import SharpeRatio
 from RRL.UtilityFunctions import FeatureNormalize
+from RRL.rrl_class import RRL
 
 #### MAIN ####
 
@@ -60,17 +61,12 @@ plt.show()
 '''
 
 # Get training and testing data from quandl.
+# Configure quandl account.
+quandl.ApiConfig.api_key = "UYzP-62GzccS1s_3NToj"
 trainingData = quandl.get("WIKI/AAPL", start_date = "2008-01-01", end_date="2014-12-31", returns="numpy")
 trainingData = trainingData["Adj. Close"]
 testData = quandl.get("WIKI/AAPL", start_date = "2014-01-01", end_date="2015-12-31", returns="numpy")
 testData = testData["Adj. Close"]
-
-# Plot training and test data.
-plt.plot(trainingData)
-plt.show()
-plt.plot(testData)
-plt.show()
-
 
 # Set the parameters
 optimizationFunction = "return"
@@ -92,24 +88,37 @@ returns = X[startPos:finishPos] + 1
 for i in range(1, returns.size):
     returns[i] = returns[i-1]*returns[i]
 
-plt.plot(returns)
-plt.title("Returns")
-plt.show()
-
-# Plot returns and normalized returns
-plt.plot(X)
-plt.show()
-plt.plot(Xn)
-plt.show()
-
 # Generate theta
 theta = np.ones(M+2)
 
+'''
+rrl = RRL(optimization_function=optimizationFunction)
+print("Computing neuron outputs F... ")
+F = ComputeF(theta, Xn, T, M, startPos)
+print(rrl.__compute_F__(theta,Xn,T,M,startPos))
+print(F)
+print(sum(rrl.__compute_F__(theta,Xn,T,M,startPos)-F))
+# Compute the rewards
+print("Computing reward function... ")
+rewards = RewardFunction(mu, F, transactionCosts, T, M, X)
+print(sum(rrl.reward_function(rrl.__compute_F__(theta,Xn,T,M,startPos),T,M,X) - rewards))
+
+print("objective function")
+print(ObjectiveFunction(theta, X, Xn, T, M, mu, transactionCosts, startPos, optimizationFunction))
+print(rrl.__ObjectiveFunction__(theta,X, Xn, T, M, startPos))
+
+print("Gradient")
+g1 = GradientFunctionM(theta, X, Xn, T, M, mu, transactionCosts, startPos, optimizationFunction)
+g2 = rrl.__GradientFunctionM__(theta,X, Xn, T, M, startPos)
+print(sum(g1-g2))
+'''
 print ("Computing theta...")
 # Compute optimal theta and cost
 theta = fmin_ncg(ObjectiveFunction, theta, GradientFunctionM, args=(X, Xn, T, M, mu, transactionCosts, startPos, optimizationFunction), avextol=1e-8, maxiter=50)
 #theta = train(theta, X, Xn, T, M, mu, transactionCosts, startPos, 1, 500, optimizationFunction)
-print ("Computing theta finished.")
+#theta2 = fmin_ncg(rrl.__ObjectiveFunction__, theta, rrl.__GradientFunctionM__,
+#                 args=(X, Xn, T, M, startPos), avextol=1e-8, maxiter=50)
+#)
 
 ## PLOTTING ##
 # Compute the output F.
