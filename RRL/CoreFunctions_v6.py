@@ -153,7 +153,7 @@ def train(theta, X, Xn, T, M, mu, transactionCosts, startPos, rho, N, functionNa
         # Compute the gradient.
         gradient = GradientFunctionM(theta, X, Xn, T, M, mu, transactionCosts, startPos, functionName)
         # Weights update rule.
-        theta = theta - rho*gradient
+        theta = theta + rho*gradient
     return theta
 ## END TRAINING ##
 
